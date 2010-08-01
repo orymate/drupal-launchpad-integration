@@ -5,10 +5,12 @@ function launchpad_profile_alter(&$account)
   $category =  variable_get('launchpad_profile_category', 'Launchpad');
   $weight =  variable_get('launchpad_weight', 0);
   while ($identity = db_fetch_object($result)) {
+    $matches = explode('/', $identity->authname);
+    $name = preg_replace('/^~/', '', $matches[3]);
     $account->content[$category]['launchpad-openid'] = array(
         '#type' => 'user_profile_item',
         '#title' => t('Launchpad ID'),
-        '#value' => check_plain($identity->authname),
+        '#value' => l(check_plain($name), $identity->authname),
         '#weight' => $weight,
         '#attributes' => array('class' => 'profile-launchpad-openid'));
   }
