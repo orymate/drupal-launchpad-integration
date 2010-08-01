@@ -1,0 +1,15 @@
+<?php
+function launchpad_profile_alter(&$account)
+{
+  $result = db_query("SELECT * FROM {authmap} WHERE module='openid' AND uid=%d AND authname LIKE 'https://launchpad.net/~%'", $account->uid);
+  $category =  variable_get('launchpad_profile_category', 'Launchpad');
+  $weight =  variable_get('launchpad_weight', 0);
+  while ($identity = db_fetch_object($result)) {
+    $account->content[$category]['launchpad-openid'] = array(
+        '#type' => 'user_profile_item',
+        '#title' => t('Launchpad ID'),
+        '#value' => check_plain($identity->authname),
+        '#weight' => $weight,
+        '#attributes' => array('class' => 'profile-launchpad-openid'));
+  }
+}

@@ -1,0 +1,5 @@
+name = Launchpad
+description = "Display openid authenticated Launchpad ID in user profile"
+core = 6.x
+dependencies[] = profile
+dependencies[] = openid
